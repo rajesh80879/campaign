@@ -1,0 +1,32 @@
+{% extends 'campaign/base.html' %}
+
+{% block content %}
+<h2>Step {{ step|add:"1" }}: {{ step_name|title }}</h2>
+
+<!-- Navigation Bar for Steps -->
+<div>
+    {% for i in step_range %}
+        {% if i <= step %}  {# Enable only completed and current steps #}
+            <a href="{% url 'campaign_wizard' step=i %}" 
+               style="padding: 10px; text-decoration: none; 
+                      {% if step == i %} font-weight: bold; color: blue; {% endif %}">
+                Step {{ i|add:"1" }}
+            </a>
+        {% else %}  {# Disable future steps #}
+            <span style="padding: 10px; color: grey;">Step {{ i|add:"1" }}</span>
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+<!-- Form -->
+<form method="post">
+    {% csrf_token %}
+    <label for="data">{{ step_name|title }} Data:</label>
+    <input type="text" name="data" value="{{ saved_data.data }}" placeholder="Enter data here">
+    
+    <button type="submit" name="continue">Continue</button>
+    <button type="submit" name="do_later">Do Later</button>
+    <button type="submit" name="reset">Reset</button>
+</form>
+{% endblock %}

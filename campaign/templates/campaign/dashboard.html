@@ -1,0 +1,10 @@
+{% extends 'campaign/base.html' %}
+
+{% block content %}
+<h2>Campaign Dashboard</h2>
+<ul>
+    {% for step, data in campaign_data.items %}
+        <li>{{ step|title }}: {{ data.data|default:"No Data" }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
